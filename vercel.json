@@ -2,10 +2,23 @@
   "redirects": [
     { "source": "/services/:slug", "destination": "/:slug", "permanent": true },
     { "source": "/ai-agents/", "destination": "/ai-agents.html", "permanent": true },
+    { "source": "/webmaster/", "destination": "https://hs-solutions-landing.vercel.app/webmaster/", "permanent": false },
+    { "source": "/work/", "destination": "https://hs-solutions-landing.vercel.app/work/", "permanent": false },
+    { "source": "/demo/", "destination": "https://hs-solutions-landing.vercel.app/demo/", "permanent": false },
+    { "source": "/plans/", "destination": "https://hs-solutions-landing.vercel.app/plans/", "permanent": false },
+    { "source": "/pricing/", "destination": "https://hs-solutions-landing.vercel.app/pricing/", "permanent": false },
+    { "source": "/pages/", "destination": "https://hs-solutions-landing.vercel.app/pages/", "permanent": false },
     { "source": "/webmaster", "destination": "https://hs-solutions-landing.vercel.app/webmaster/", "permanent": false },
     { "source": "/webmaster/:path*", "destination": "https://hs-solutions-landing.vercel.app/webmaster/:path*", "permanent": false },
     { "source": "/work", "destination": "https://hs-solutions-landing.vercel.app/work/", "permanent": false },
     { "source": "/work/:path*", "destination": "https://hs-solutions-landing.vercel.app/work/:path*", "permanent": false },
-    { "source": "/demo/:path*", "destination": "https://hs-solutions-landing.vercel.app/demo/:path*", "permanent": false }
+    { "source": "/demo", "destination": "https://hs-solutions-landing.vercel.app/demo/", "permanent": false },
+    { "source": "/demo/:path*", "destination": "https://hs-solutions-landing.vercel.app/demo/:path*", "permanent": false },
+    { "source": "/plans", "destination": "https://hs-solutions-landing.vercel.app/plans/", "permanent": false },
+    { "source": "/plans/:path*", "destination": "https://hs-solutions-landing.vercel.app/plans/:path*", "permanent": false },
+    { "source": "/pricing", "destination": "https://hs-solutions-landing.vercel.app/pricing/", "permanent": false },
+    { "source": "/pricing/:path*", "destination": "https://hs-solutions-landing.vercel.app/pricing/:path*", "permanent": false },
+    { "source": "/pages", "destination": "https://hs-solutions-landing.vercel.app/pages/", "permanent": false },
+    { "source": "/pages/:path*", "destination": "https://hs-solutions-landing.vercel.app/pages/:path*", "permanent": false }
   ]
 }
