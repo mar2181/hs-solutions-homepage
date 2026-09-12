@@ -1,0 +1,11 @@
+{
+  "redirects": [
+    { "source": "/services/:slug", "destination": "/:slug", "permanent": true },
+    { "source": "/ai-agents/", "destination": "/ai-agents.html", "permanent": true },
+    { "source": "/webmaster", "destination": "https://hs-solutions-landing.vercel.app/webmaster/", "permanent": false },
+    { "source": "/webmaster/:path*", "destination": "https://hs-solutions-landing.vercel.app/webmaster/:path*", "permanent": false },
+    { "source": "/work", "destination": "https://hs-solutions-landing.vercel.app/work/", "permanent": false },
+    { "source": "/work/:path*", "destination": "https://hs-solutions-landing.vercel.app/work/:path*", "permanent": false },
+    { "source": "/demo/:path*", "destination": "https://hs-solutions-landing.vercel.app/demo/:path*", "permanent": false }
+  ]
+}
