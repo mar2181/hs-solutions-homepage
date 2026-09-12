@@ -58,7 +58,7 @@ h1{font-size:clamp(44px,5vw,76px);line-height:.98;margin:18px 0 18px;letter-spac
 .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid #e6e1d5;background:#fff;border-radius:18px;margin:30px 0 56px;overflow:hidden}
 .stat{padding:24px 18px;text-align:center;border-right:1px solid #eee8dc}.stat:last-child{border:0}.stat strong{display:block;font-size:25px}.stat span{font-size:11px;color:#707070}
 section{padding:34px 0 16px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:22px}.section-head h2{font-size:40px;line-height:1.05;margin:7px 0 0;letter-spacing:-.04em}.section-head p{color:var(--muted);max-width:760px;margin:8px 0 0;line-height:1.6}.section-link{font-size:13px;font-weight:800;white-space:nowrap}
-.services-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.service-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;min-height:150px;transition:.2s}.service-card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(0,0,0,.06)}
+.services-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.service-card{display:block;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;min-height:150px;transition:.2s}.service-card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(0,0,0,.06)}
 .icon{width:42px;height:42px;border-radius:12px;background:#fff4b7;display:grid;place-items:center;font-size:21px;margin-bottom:16px;border:1px solid #f5e793}.service-card h3{font-size:15px;margin:0 0 7px}.service-card p{font-size:12px;color:#707070;line-height:1.5;margin:0}
 .visual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.visual-card{background:white;border:1px solid var(--line);border-radius:20px;overflow:hidden}.visual-card .imgwrap{height:220px;background:#eee;overflow:hidden}.visual-card img{width:100%;height:100%;object-fit:cover}.visual-card .copy{padding:18px}.visual-card h3{margin:0 0 8px}.visual-card p{margin:0 0 14px;color:#707070;font-size:13px;line-height:1.55}
 .band{margin:46px 0;background:#111;color:white;border-radius:26px;padding:36px}.band .eyebrow{color:#d7d0bb}.band .section-head h2{color:white}.band .section-head p{color:#c8c8c8}
@@ -114,19 +114,19 @@ footer{border-top:1px solid #e7e1d5;padding:34px 0 50px}.footer-grid{display:gri
 
 <section id="services"><div class="container"><div class="section-head"><div><div class="eyebrow">Our services</div><h2>Everything You Need to Grow</h2><p>From marketing and automation to real estate intelligence and custom apps, HS Solutions provides end-to-end digital solutions for businesses of all sizes.</p></div><a class="section-link" href="#contact">View All Services →</a></div>
 <div class="services-grid">
-  <div class="service-card"><div class="icon">📈</div><h3>Online Marketing</h3><p>SEO, PPC, email, lead generation and digital campaigns built to convert.</p></div>
-  <div class="service-card"><div class="icon">⚙️</div><h3>Automation</h3><p>CRM workflows, notifications, follow-up systems and AI automation.</p></div>
+  <a class="service-card" href="services/online-marketing.html"><div class="icon">📈</div><h3>Online Marketing</h3><p>SEO, PPC, email, lead generation and digital campaigns built to convert.</p></a>
+  <a class="service-card" href="services/automation.html"><div class="icon">⚙️</div><h3>Automation</h3><p>CRM workflows, notifications, follow-up systems and AI automation.</p></a>
   <div class="service-card"><div class="icon">📱</div><h3>Webapps & Apps</h3><p>Custom web and mobile applications built around your operation.</p></div>
   <div class="service-card"><div class="icon">🏠</div><h3>Financial Real Estate Reports</h3><p>Property, market and neighborhood reports for better decisions.</p></div>
   <div class="service-card"><div class="icon">📍</div><h3>Neighborhood Selling Marketing</h3><p>Hyperlocal real estate marketing campaigns designed to win listings.</p></div>
-  <div class="service-card"><div class="icon">🖥️</div><h3>Websites & Landing Pages</h3><p>Beautiful, modern, conversion-focused websites and campaign pages.</p></div>
+  <a class="service-card" href="services/websites-landing-pages.html"><div class="icon">🖥️</div><h3>Websites & Landing Pages</h3><p>Beautiful, modern, conversion-focused websites and campaign pages.</p></a>
   <div class="service-card"><div class="icon">👥</div><h3>Social Media Content</h3><p>Strategy, content creation, publishing and ongoing management.</p></div>
   <div class="service-card"><div class="icon">✍️</div><h3>Blogs</h3><p>SEO-friendly long-form content that educates, ranks and converts.</p></div>
   <div class="service-card"><div class="icon">📌</div><h3>GBP Creation & Upkeep</h3><p>Google Business Profile setup, optimization, posts and maintenance.</p></div>
   <div class="service-card"><div class="icon">🔎</div><h3>GSC Creation & Upkeep</h3><p>Google Search Console setup, monitoring, indexing and performance checks.</p></div>
-  <div class="service-card"><div class="icon">💳</div><h3>POS Systems</h3><p>Modern point-of-sale platforms tailored to how your business operates.</p></div>
-  <div class="service-card"><div class="icon">📦</div><h3>Inventory Platforms</h3><p>Track stock, movements, sales, products and multi-location inventory.</p></div>
-  <div class="service-card"><div class="icon">🤖</div><h3>Agent Builders</h3><p>Custom AI agents for sales, support, research and business workflows.</p></div>
+  <a class="service-card" href="services/pos-inventory.html"><div class="icon">💳</div><h3>POS Systems</h3><p>Modern point-of-sale platforms tailored to how your business operates.</p></a>
+  <a class="service-card" href="services/pos-inventory.html"><div class="icon">📦</div><h3>Inventory Platforms</h3><p>Track stock, movements, sales, products and multi-location inventory.</p></a>
+  <a class="service-card" href="services/ai-agents.html"><div class="icon">🤖</div><h3>Agent Builders</h3><p>Custom AI agents for sales, support, research and business workflows.</p></a>
   <div class="service-card"><div class="icon">🎬</div><h3>Creative Content</h3><p>Graphics, video concepts, social assets, brand content and campaigns.</p></div>
   <div class="service-card"><div class="icon">•••</div><h3>And More</h3><p>Custom solutions built around your exact business goals and systems.</p></div>
 </div></div></section>
