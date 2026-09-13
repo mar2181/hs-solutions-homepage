@@ -1,0 +1,45 @@
+{
+  "_comment": "Every client or product name the homepage may show, with where it comes from. Copied by hand from hs-solutions-landing/tools/work_sites.json (tier field) so this repo's guard is hermetic. Never copy passwords or gated URLs here.",
+  "clients": [
+    "The Sugar Shack",
+    "Island Candy",
+    "Island Arcade",
+    "SPI Fun Rentals",
+    "Custom Designs TX",
+    "Juan Elizondo",
+    "RGV Reef",
+    "Wild Society",
+    "Naves McAllen",
+    "Casas RGV",
+    "ClearCross Progreso"
+  ],
+  "our_products": [
+    "Pet Buddy",
+    "Mission Control",
+    "Land Analysis RGV",
+    "HS Quizzes",
+    "CaseVault",
+    "DealerVault"
+  ],
+  "concept_only": [
+    "Junior's",
+    "Juniors",
+    "Ashley Health",
+    "HS Law",
+    "HS Pools",
+    "HS Builders",
+    "HS Tow",
+    "HS Mattress",
+    "HS Furniture",
+    "Ancer Pools",
+    "Garden of Eden",
+    "Deep South Pools",
+    "Luna Transportation",
+    "Saenz"
+  ],
+  "invented_people": [
+    "Sarah M.",
+    "James T.",
+    "Maria L."
+  ]
+}
