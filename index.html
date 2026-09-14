@@ -37,7 +37,7 @@ p{margin:0}
 .muted{color:var(--muted)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:var(--r1);border:1.5px solid var(--ink);font-weight:700;font-size:14px;white-space:nowrap;transition:transform .2s ease}
 .btn:hover{transform:translateY(-1px)}
-.btn.primary{background:var(--yellow);border-color:var(--yellow)}
+.btn.primary{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
 .btn.dark{background:var(--ink);color:var(--on-dark)}
 .link{font-weight:700;font-size:14px;border-bottom:1.5px solid currentColor;padding-bottom:2px}
 
@@ -149,6 +149,22 @@ section{padding-block:clamp(72px,9vw,128px)}
 .cta-actions .btn:not(.primary){border-color:var(--on-dark);color:var(--on-dark)}
 .cta-scene{min-height:360px}
 .cta-scene img{width:100%;height:100%;object-fit:cover}
+/* the quote form: one fragment on every page, written by tools/build_service_pages.py, posting to api/lead.js */
+.cta-form{background:var(--soft);color:var(--ink);padding:clamp(24px,3.5vw,48px);display:flex;align-items:center}
+.quote-form{display:grid;gap:14px;width:100%;position:relative}
+.quote-form label{display:grid;gap:6px;font-size:14px;font-weight:700}
+.quote-form input,.quote-form select,.quote-form textarea{font:inherit;font-size:16px;font-weight:500;color:var(--ink);background:var(--white);border:1.5px solid var(--line);border-radius:var(--r1);padding:11px 14px;width:100%;min-height:48px}
+.quote-form textarea{resize:vertical;min-height:96px}
+.quote-form input:focus,.quote-form select:focus,.quote-form textarea:focus{outline:2px solid var(--ink);outline-offset:1px;border-color:var(--ink)}
+.qf-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.quote-form .btn{width:100%;cursor:pointer;font-family:inherit}
+.quote-form .btn[disabled]{opacity:.6;cursor:wait}
+.qf-status{font-size:14px;font-weight:700;min-height:1.6em}
+.qf-status.err{border-left:3px solid var(--ink);padding-left:10px}
+.qf-note{font-size:12px;color:var(--muted)}
+.hp{position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden}
+.qf-flag{display:none;font-size:14px;font-weight:700;border-left:3px solid var(--ink);padding-left:10px}
+.qf-flag:target{display:block}
 
 footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
 .foot{display:grid;grid-template-columns:minmax(0,5fr) repeat(2,minmax(0,3fr));gap:40px}
@@ -204,6 +220,8 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   .scroll-shot{height:70svh;min-height:420px}
   .svc{flex-direction:column;gap:2px}.svc span{text-align:left}
   .faq summary{font-size:16px}
+  .qf-row{grid-template-columns:1fr}
+  .cta-form{padding:20px}
   .dock{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;height:var(--dock-h);background:var(--paper);border-top:1px solid var(--line);z-index:50;padding-bottom:env(safe-area-inset-bottom)}
   .dock a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:700}
   .dock svg{width:22px;height:22px}
@@ -383,10 +401,10 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
       <div class="cta-copy">
         <p class="eyebrow">Start here</p>
         <h2>Tell us what you're building.</h2>
-        <p class="muted">A short call. We'll tell you what we'd do first and what it would take.</p>
-        <div class="cta-actions"><a class="btn primary" href="mailto:hssolutions2181@gmail.com?subject=Strategy%20call">Email us</a><a class="btn" href="tel:+19563937828">Call (956) 393-7828</a></div>
+        <p class="muted">Send a few lines or call. We'll tell you what we'd do first and what it would take.</p>
+        <div class="cta-actions"><a class="btn" href="tel:+19563937828">Call (956) 393-7828</a></div>
       </div>
-      <div class="cta-scene"><img src="assets/scene/valley-dusk.webp" alt="A palm-lined road across the flat Rio Grande Valley at dusk" width="1600" height="900" loading="lazy"></div>
+      <div class="cta-form"><!-- quote:start --><form class="quote-form" action="/api/lead" method="post" data-lead><input type="hidden" name="page" value="index.html"><input type="hidden" name="t" value=""><div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div><div class="qf-row"><label>Name<input name="name" required maxlength="80" autocomplete="name"></label><label>Business<input name="business" maxlength="120" autocomplete="organization"></label></div><div class="qf-row"><label>Phone<input name="phone" type="tel" maxlength="30" autocomplete="tel"></label><label>Email<input name="email" type="email" maxlength="120" autocomplete="email"></label></div><label>What do you need?<select name="service"><option selected>Not sure yet</option><option>Website or landing page</option><option>Local SEO and Google Business Profile</option><option>Online marketing and ads</option><option>Content and creative</option><option>AI agent</option><option>AI Webmaster</option><option>Automation</option><option>Web or mobile app</option><option>POS and inventory</option><option>Real estate marketing</option></select></label><label>Tell us a little<textarea name="message" rows="4" maxlength="2000"></textarea></label><button class="btn primary" type="submit">Send</button><p class="qf-status" role="status" aria-live="polite"></p><p id="quote-sent" class="qf-flag">Thanks. Your message reached us, and we'll reply by phone or email.</p><p id="quote-failed" class="qf-flag">That didn't send. Please call (956) 393-7828.</p><p class="qf-note">Add a phone or an email. We reply to you directly and never share your details.</p></form><!-- quote:end --></div>
     </div>
   </div>
 </section>
@@ -396,8 +414,8 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   <div class="wrap">
     <div class="foot">
       <div>
-        <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true"></span>HS Solutions</a>
-        <p class="seo-contact muted" data-seo="contact"><a data-seo="tel" href="tel:+19563937828">(956) 393-7828</a><br><a href="mailto:hssolutions2181@gmail.com">hssolutions2181@gmail.com</a><br>Serving McAllen, Edinburg, Mission, Pharr, Brownsville, Harlingen &amp; Weslaco, Texas</p>
+        <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true"></span>HS Solutions</a><p class="seo-contact muted" data-seo="contact"><a data-seo="tel" href="tel:+19563937828">(956) 393-7828</a><br><a href="mailto:hssolutions2181@gmail.com">hssolutions2181@gmail.com</a><br>Serving McAllen, Edinburg, Mission, Pharr, Brownsville, Harlingen &amp; Weslaco, Texas</p>
+        
       </div>
       <nav aria-label="Services"><h4>Services</h4><a href="websites-landing-pages.html">Websites and landing pages</a><a href="local-seo.html">Local SEO</a><a href="online-marketing.html">Online marketing</a><a href="content-creative.html">Content and creative</a><a href="automation.html">Automation</a><a href="webapps-apps.html">Webapps and apps</a><a href="pos-inventory.html">POS and inventory</a><a href="real-estate.html">Real estate reports</a><a href="ai-agents.html">AI agents</a><a href="ai-webmaster.html">AI Webmaster</a></nav>
       <nav aria-label="On this page"><h4>HS Solutions</h4><a href="#work">Work</a><a href="#services">What we build</a><a href="#petbuddy">Pet Buddy</a><a href="#process">Process</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></nav>
@@ -413,5 +431,6 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   <a href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>Contact</a>
 </nav>
 <script>(function(){var w=document.querySelector(".wall"),d=document.querySelectorAll(".wall-dots span");if(!w||!d.length)return;w.addEventListener("scroll",function(){var i=Math.round(w.scrollLeft/Math.max(1,w.clientWidth));d.forEach(function(s,k){s.classList.toggle("on",k===i)})},{passive:true})})();</script>
+<script src="assets/site.js" defer></script>
 </body>
 </html>

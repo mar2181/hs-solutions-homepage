@@ -26,7 +26,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SITE = "https://hs-solutions.dev"
-LASTMOD = "2026-09-12"
+LASTMOD = "2026-09-14"
 
 NAME = "HS Solutions"
 PHONE_DISPLAY = "(956) 393-7828"
@@ -99,17 +99,15 @@ PAGES = {
 }
 
 CSS = (
+    # Every page shares the homepage's design system now (tools/build_service_pages.py copies its
+    # <style>), so this block matches what the redesigned homepage ships byte for byte. The old
+    # 560px/420px rules targeted the retired dark template's header and are gone with it.
     ".seo-tel{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px;"
     "color:inherit;text-decoration:none;white-space:nowrap;margin-right:14px}"
     ".seo-tel svg{width:15px;height:15px;flex:none}"
-    ".seo-contact{margin-top:14px;line-height:1.75;font-size:13px}"
+    ".seo-contact{margin-top:14px;line-height:1.75;font-size:14px}"
     ".seo-contact a{display:inline!important;margin:0!important;padding:0!important;"
     "color:inherit!important;text-decoration:underline}"
-    "@media(max-width:560px){.seo-tel{font-size:12px;margin-right:8px}}"
-    # Homepage only (.nav-actions exists nowhere else): measured at 360px, the phone icon
-    # pushed "Book a Strategy Call" 19px past the screen edge. Tighten, never hide, the call.
-    "@media(max-width:420px){.nav-actions{gap:6px!important}.nav-actions .seo-tel{margin-right:2px}"
-    ".nav-actions .btn.primary{padding-left:10px!important;padding-right:10px!important}}"
     # Phones get the icon alone (the aria-label still reads the number). Measured: at 414px
     # the spelled-out number pushed the homepage's call button 24px past the screen edge.
     "@media(max-width:480px){.seo-tel .seo-tel-num{position:absolute;width:1px;height:1px;"
@@ -183,7 +181,7 @@ def head_block(fname):
 HEADER_TEL = (f'<a class="seo-tel" data-seo="tel" href="tel:{PHONE_TEL}" '
               f'aria-label="Call HS Solutions at {PHONE_DISPLAY}">{PHONE_SVG}'
               f'<span class="seo-tel-num">{PHONE_DISPLAY}</span></a>')
-FOOTER_CONTACT = (f'<p class="seo-contact" data-seo="contact">'
+FOOTER_CONTACT = (f'<p class="seo-contact muted" data-seo="contact">'
                   f'<a data-seo="tel" href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a><br>'
                   f'<a href="mailto:{EMAIL}">{EMAIL}</a><br>'
                   f'Serving {", ".join(AREAS[:-1])} &amp; {AREAS[-1]}, Texas</p>')
@@ -199,7 +197,9 @@ def one(pattern, text, what, fname):
 def rewrite(fname, text):
     # 1. strip everything this tool owns, so a second run is a no-op
     text = re.sub(r"<!-- seo:start -->.*?<!-- seo:end -->", "", text, flags=re.S)
-    text = re.sub(r'<p class="seo-contact" data-seo="contact">.*?</p>', "", text, flags=re.S)
+    # ⛔ Match ANY class list: the homepage's contact is "seo-contact muted". An exact-class match
+    # missed it, so each run stripped only the phone link inside and appended a second block.
+    text = re.sub(r'<p class="seo-contact[^"]*" data-seo="contact">.*?</p>', "", text, flags=re.S)
     text = re.sub(r'<a[^>]*data-seo="tel"[^>]*>.*?</a>', "", text, flags=re.S)
     # ...and the tags it replaces. A title on its own line takes its line ending with it.
     text = re.sub(r"[ \t]*<title>.*?</title>(\r?\n)?", "", text, flags=re.S)
@@ -218,13 +218,15 @@ def rewrite(fname, text):
     block = block[:last_btn] + HEADER_TEL + block[last_btn:]
     text = text[:hdr.start()] + block + text[hdr.end():]
 
-    # 4. contact line in the footer, after its first paragraph
+    # 4. contact line in the footer, right under the footer logo. (It used to follow the first
+    # paragraph -- which, once the contact itself is stripped, is the copyright line at the very
+    # bottom, so a second run moved the phone number below it.)
     ftr = one(r"<footer\b.*?</footer>", text, "<footer>", fname)
     block = ftr.group(0)
-    first_p = block.find("</p>")
-    if first_p < 0:
-        sys.exit(f"REFUSED {fname}: footer has no paragraph to follow")
-    block = block[:first_p + 4] + FOOTER_CONTACT + block[first_p + 4:]
+    logo = re.search(r'<a class="logo"[^>]*>.*?</a>', block, re.S)
+    if not logo:
+        sys.exit(f"REFUSED {fname}: footer has no logo link to place the contact line under")
+    block = block[:logo.end()] + FOOTER_CONTACT + block[logo.end():]
     text = text[:ftr.start()] + block + text[ftr.end():]
 
     # 5. leads go to an inbox we own

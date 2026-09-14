@@ -52,7 +52,15 @@ for path in files:
             check(True, "")
         elif href:
             target = href.split("#")[0].split("?")[0]
-            check(os.path.exists(os.path.join(base, target)), f"{f}: link to missing file {href}")
+            tpath = os.path.join(base, target)
+            check(os.path.exists(tpath), f"{f}: link to missing file {href}")
+            # A link to another page's section must land on it. The old service pages linked
+            # index.html#about and #cases, which never existed, and this check could not see it.
+            if "#" in href and os.path.exists(tpath) and tpath.endswith(".html"):
+                frag = href.split("#", 1)[1]
+                tbody = re.sub(r"<script\b.*?</script>", " ", open(tpath, encoding="utf-8").read(), flags=re.S | re.I)
+                check(frag in set(re.findall(r'\bid="([^"]+)"', tbody)),
+                      f"{f}: {href} points at an id that does not exist on {target}")
 
     for tag in re.findall(r"<img\b[^>]*>", body):
         src = re.search(r'\bsrc="([^"]*)"', tag)
