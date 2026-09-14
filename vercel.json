@@ -1,4 +1,19 @@
 {
+  "rewrites": [
+    { "source": "/sign-in", "destination": "/sign-in/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/sign-in(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Referrer-Policy", "value": "no-referrer" },
+        { "key": "Cache-Control", "value": "no-store" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Content-Security-Policy", "value": "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" }
+      ]
+    }
+  ],
   "redirects": [
     { "source": "/services/:slug", "destination": "/:slug", "permanent": true },
     { "source": "/ai-agents/", "destination": "/ai-agents.html", "permanent": true },

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<title>Sign-in help | HS Solutions</title>
+<script>
+/* This page is the fallback for sign-in and invite links on a shared login
+   database. A person who lands here may have a LIVE sign-in token in the
+   address bar (#access_token=... or ?code=...).
+
+   RULES, each one load-bearing:
+   1. Read what kind of link it was, then REMOVE it from the address bar before
+      anything else happens, so it is not left in history, a screenshot or a
+      shared URL.
+   2. Never store it. No localStorage, no sessionStorage, no cookies.
+   3. Never send it anywhere. This page loads nothing from any other host, and
+      the Content-Security-Policy header in vercel.json blocks every request.
+   4. Only a fixed set of words ever reaches the screen. Nothing from the URL
+      is written into the page except an error code that has been checked
+      against a strict pattern. */
+(function () {
+  var raw = (location.hash || "").replace(/^#/, "") + "&" + (location.search || "").replace(/^\?/, "");
+  var p = {};
+  raw.split("&").forEach(function (pair) {
+    if (!pair) return;
+    var i = pair.indexOf("=");
+    var k = i < 0 ? pair : pair.slice(0, i);
+    var v = i < 0 ? "" : pair.slice(i + 1);
+    try { k = decodeURIComponent(k); v = decodeURIComponent(v.replace(/\+/g, " ")); } catch (e) {}
+    p[k] = v;
+  });
+  if (location.hash || location.search) {
+    history.replaceState(null, "", location.pathname);
+  }
+  var kind = "none";
+  if (p.error || p.error_code) kind = "error";
+  else if (p.access_token || p.refresh_token || p.code || p.token_hash) kind = "session";
+  var type = /^(invite|recovery|signup|magiclink|email_change)$/.test(p.type || "") ? p.type : "";
+  var code = /^[a-z0-9_]{1,40}$/.test(p.error_code || "") ? p.error_code : "";
+  window.__signin = { kind: kind, type: type, code: code };
+})();
+</script>
+<style>
+:root{
+  --ink:#121212; --muted:#57544b; --paper:#fbfaf6; --white:#ffffff; --soft:#f1ede3;
+  --yellow:#ffd82f; --line:#e4dfd2; --r1:8px; --r2:16px;
+  --gutter:clamp(16px,4vw,48px);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.6;background:var(--paper);color:var(--ink)}
+a{color:inherit}
+.wrap{width:min(720px,100%);margin:0 auto;padding-inline:var(--gutter)}
+header{border-bottom:1px solid var(--line)}
+.bar{height:72px;display:flex;align-items:center}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.03em;text-decoration:none}
+.logo-mark{width:28px;height:28px;border:3px solid var(--ink);border-radius:var(--r1);position:relative;overflow:hidden}
+.logo-mark:after{content:"";position:absolute;width:9px;top:-2px;bottom:-2px;left:7px;background:var(--yellow)}
+main{padding-block:clamp(40px,8vw,88px)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+h1{margin:0 0 16px;font-size:clamp(31px,5vw,44px);line-height:1.08;letter-spacing:-.035em;font-weight:800;text-wrap:balance}
+.lead{margin:0 0 32px;font-size:20px;color:var(--muted);max-width:60ch}
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--r2);padding:clamp(20px,4vw,32px)}
+.card h2{margin:0 0 12px;font-size:20px;letter-spacing:-.02em}
+ol{margin:0;padding-left:22px;display:grid;gap:10px}
+.note{margin-top:20px;padding:14px 16px;background:var(--soft);border-radius:var(--r1);font-size:14px;color:var(--muted)}
+.help{margin-top:32px;font-size:14px;color:var(--muted)}
+.help a{color:var(--ink);font-weight:700}
+.code{font-family:ui-monospace,Consolas,monospace;font-size:14px}
+a:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="/"><span class="logo-mark" aria-hidden="true"></span>HS Solutions</a>
+  </div>
+</header>
+<main class="wrap">
+  <p class="eyebrow">Sign-in help</p>
+  <h1 id="title">That link didn't open the page it was meant for</h1>
+  <p class="lead" id="lead">A sign-in or invite link sent you here instead of to the app or website you were using.</p>
+
+  <section class="card" aria-labelledby="steps-title">
+    <h2 id="steps-title">How to get back in</h2>
+    <ol>
+      <li>Go back to the website or app where you asked to sign in.</li>
+      <li>Ask for a new sign-in link, or sign in again.</li>
+      <li>Open the newest email and use that link.</li>
+    </ol>
+    <p class="note" id="note" hidden></p>
+  </section>
+
+  <p class="help">Still stuck? Call <a href="tel:+19563937828">(956) 393-7828</a> or email <a href="mailto:hssolutions2181@gmail.com">hssolutions2181@gmail.com</a><span id="code-line" hidden> and mention the code <span class="code" id="code"></span></span>.</p>
+</main>
+<script>
+(function () {
+  var s = window.__signin || { kind: "none", type: "", code: "" };
+  var title = document.getElementById("title");
+  var lead = document.getElementById("lead");
+  var note = document.getElementById("note");
+  var what = { invite: "invite link", recovery: "password reset link", signup: "confirmation link",
+               magiclink: "sign-in link", email_change: "email change link" }[s.type] || "link";
+  if (s.kind === "error") {
+    title.textContent = "That " + what + " has expired or was already used";
+    lead.textContent = "Links like this only work once, and only for a short time.";
+  } else if (s.kind === "session") {
+    title.textContent = "That " + what + " was meant to open a different page";
+    lead.textContent = "It reached us instead of the app or website you were using.";
+    note.textContent = "For your security, we did not keep that sign-in. It has been removed from this page's address.";
+    note.hidden = false;
+  }
+  if (s.code) {
+    document.getElementById("code").textContent = s.code;
+    document.getElementById("code-line").hidden = false;
+  }
+})();
+</script>
+</body>
+</html>
