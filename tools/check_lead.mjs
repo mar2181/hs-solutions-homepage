@@ -37,7 +37,7 @@ function fakeResend(status, body) {
   return fn;
 }
 const ENV = { RESEND_API_KEY: "re_test", LEAD_INBOX: "a@example.com, b@example.com" };
-const GOOD = { name: "Ana Lopez", phone: "(956) 555-0101", email: "ana@example.com", service: "Local SEO and Google Business Profile", message: "Need help", page: "local-seo.html", t: String(Date.now() - 60000) };
+const GOOD = { name: "Ana Lopez", phone: "(956) 555-0101", email: "ana@example.com", service: "Local SEO and Google Business Profile", message: "Need help", page: "local-seo.html", t: "60000" };
 
 async function run(body, { env = ENV, resend = fakeResend(200, { id: "em_1" }), method = "POST", headers = {} } = {}) {
   const res = fakeRes();
@@ -91,10 +91,26 @@ async function run(body, { env = ENV, resend = fakeResend(200, { id: "em_1" }), 
 {
   const hp = await run({ ...GOOD, website: "http://spam" });
   check(hp.j?.ok === true && hp.resend.calls.length === 0, "filled honeypot -> ok, nothing sent");
-  const fast = await run({ ...GOOD, t: String(Date.now() - 500) });
-  check(fast.j?.ok === true && fast.resend.calls.length === 0, "submitted in under 3s -> ok, nothing sent");
+  const fast = await run({ ...GOOD, t: "500" });
+  check(fast.j?.ok === true && fast.resend.calls.length === 0, "form open under 3s -> ok, nothing sent");
+  const edge = await run({ ...GOOD, t: "2999" });
+  check(edge.resend.calls.length === 0, "2999ms is still too fast");
+  const atMin = await run({ ...GOOD, t: "3000" });
+  check(atMin.resend.calls.length === 1, "3000ms is a person");
   const noT = await run({ ...GOOD, t: "" });
-  check(noT.resend.calls.length === 1, "no timestamp (JavaScript off) is still a real lead");
+  check(noT.resend.calls.length === 1, "no duration (JavaScript off) is still a real lead");
+  // The production bug: t used to be a browser timestamp compared with the server clock, so a
+  // device 63s fast looked like it submitted in the future and every lead was silently dropped.
+  const skewed = await run({ ...GOOD, t: String(Date.now() + 63000) });
+  check(skewed.resend.calls.length === 1, "an absolute timestamp from a fast device clock is NOT treated as a bot");
+  const stale = await run({ ...GOOD, t: String(Date.now() - 60000) });
+  check(stale.resend.calls.length === 1, "an old absolute timestamp (cached page) is still a real lead");
+  const neg = await run({ ...GOOD, t: "-5" });
+  check(neg.resend.calls.length === 1, "a negative duration is not proof of a bot");
+  const fs = await import("node:fs");
+  const siteJs = fs.readFileSync(new URL("../assets/site.js", import.meta.url), "utf8").replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, "");
+  check(!/t\.value\s*=\s*String\(\s*Date\.now\(\)\s*\)/.test(siteJs), "site.js never sends a device timestamp as t");
+  check(/performance\.now/.test(siteJs) && /elapsed\(\);/.test(siteJs), "site.js measures elapsed time and stamps it at submit");
 }
 // 5. transport details
 {

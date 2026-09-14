@@ -27,12 +27,18 @@
     var t = f.querySelector('input[name="t"]');
     var status = f.querySelector(".qf-status");
     var btn = f.querySelector('button[type="submit"]');
-    function stamp() { if (t) t.value = String(Date.now()); }
+    // t = how long the form has been open (ms), from this page's own monotonic clock.
+    // Never Date.now(): the server cannot compare a device clock with its own.
+    var armed = 0;
+    function now() { return window.performance && performance.now ? performance.now() : Date.now(); }
+    function stamp() { armed = now(); if (t) t.value = ""; }
+    function elapsed() { if (t) t.value = String(Math.max(0, Math.round(now() - armed))); }
     function say(msg, kind) { status.textContent = msg; status.className = "qf-status" + (kind ? " " + kind : ""); }
     stamp();
 
     f.addEventListener("submit", function (e) {
       e.preventDefault();
+      elapsed();
       var data = {};
       Array.prototype.forEach.call(f.elements, function (el) {
         if (el.name) data[el.name] = String(el.value);

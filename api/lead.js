@@ -75,10 +75,16 @@ function validate(raw) {
   return { fields: f, errors };
 }
 
+// `t` is how long the form was open, in milliseconds, measured by the visitor's browser from its
+// own monotonic clock. It is deliberately NOT a timestamp: comparing a browser timestamp with the
+// server's clock silently dropped every lead from a device whose clock runs fast (found on the
+// first production test, with a machine 63s ahead). Only a small non-negative duration counts as
+// too fast; anything else -- missing, negative, or an old absolute timestamp from a cached page --
+// is let through, because a lost lead costs more than one bot email.
 function looksLikeBot(raw) {
   if (str(raw.website, 200)) return true; // honeypot: hidden from people, filled by scripts
-  const t = Number(str(raw.t, 20));
-  return Number.isFinite(t) && t > 0 && Date.now() - t < MIN_FILL_MS;
+  const ms = Number(str(raw.t, 20));
+  return str(raw.t, 20) !== "" && Number.isFinite(ms) && ms >= 0 && ms < MIN_FILL_MS;
 }
 
 function emailText(f) {
