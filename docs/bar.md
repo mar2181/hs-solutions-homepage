@@ -53,6 +53,11 @@ Unreliable readings, kept out of the bar:
    and buttons combined).
 3. **One accent.** Brand yellow appears as a fill **at most twice in the first screen**, never
    as body text on a light ground.
+   ⛔ **REVISED 2026-09-14 by Mario** ("it looks a little too white... it needs that black and
+   yellow and an off-white look"): the page now alternates ink, yellow and off-white bands
+   (ink nav + hero, yellow proof strip, ink services, yellow Pet Buddy, ink footer). Yellow may
+   be TEXT on ink (13:1) and a highlighter FILL behind a heading word on paper. The part that
+   survives is the safety half: **yellow is never text on a light ground.**
 4. **≤ 10 distinct type sizes, none under 12px**, all from one ratio. Display type does the
    hierarchy; grey text does not.
 5. **Material restraint: ≤ 6 text colours, ≤ 5 surfaces, ≤ 4 radii.**

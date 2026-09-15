@@ -42,7 +42,9 @@ p{margin:0}
 .link{font-weight:700;font-size:14px;border-bottom:1.5px solid currentColor;padding-bottom:2px}
 
 /* nav */
-.nav{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line)}
+.nav{position:sticky;top:0;z-index:40;background:var(--ink);color:var(--on-dark);border-bottom:1px solid var(--line-dark)}
+.nav .logo-mark,footer .logo-mark{border-color:var(--on-dark)}
+.nav .btn.dark{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
 .nav-inner{height:72px;display:flex;align-items:center;gap:32px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.03em;white-space:nowrap}
 .logo-mark{width:28px;height:28px;border:3px solid var(--ink);border-radius:var(--r1);position:relative;overflow:hidden}
@@ -52,14 +54,19 @@ p{margin:0}
 .nav-actions{display:flex;align-items:center;gap:6px}
 
 /* hero: a short two-line headline, then ONE real client site in a frame a full screen tall */
-.hero{padding-block:0}
+.hero{padding-block:0;background:var(--ink);color:var(--on-dark)}
+/* 2026-09-14, Mario: "black and yellow and an off-white look". The hero is ink, one word of the headline is yellow, the proof strip under it is a yellow band. */
+.hero .eyebrow{color:var(--yellow)}
+.hl{color:var(--yellow)}
+.hero .btn:not(.primary){border-color:var(--on-dark);color:var(--on-dark)}
+.hero .col-shot{border-color:var(--line-dark)}
 .hero-fold{box-sizing:border-box;padding-block:clamp(32px,4vw,56px)}
 /* desktop: headline + the three sites fill the first screen, so the client-name strip starts at the fold instead of inside it (bar.md mechanism 2 counts every word above the fold) */
 @media (min-width:721px){.hero-fold{min-height:min(calc(100svh - 73px),1100px);display:flex;flex-direction:column;justify-content:center}.hero .proof{margin-top:0}}
 .hero-top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:24px;row-gap:24px;align-items:end}
 .hero-head{grid-column:span 2}
 .hero-top h1{font-size:clamp(48px,6vw,88px)}
-.hero-side .sub{font-size:20px;line-height:1.5;color:var(--muted)}
+.hero-side .sub{font-size:20px;line-height:1.5;color:var(--on-dark-muted)}
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
 /* the wall: three real client homepages, each shown whole (nav, hero, next section) as a tall proof, side by side */
 .wall{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;width:min(1280px,100%);margin:clamp(32px,3.5vw,48px) auto 0;padding-inline:var(--gutter);align-items:start}
@@ -73,9 +80,9 @@ p{margin:0}
 .col-url{display:none}
 
 /* proof strip */
-.proof{margin-top:clamp(48px,6vw,80px);padding-block:28px;border-block:1px solid var(--line)}
+.proof{margin-top:0;padding-block:28px;background:var(--yellow);color:var(--ink)}
 .proof-inner{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 30px}
-.proof-label{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);flex-basis:100%}
+.proof-label{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);flex-basis:100%}
 .proof-name{font-size:16px;font-weight:700;white-space:nowrap}
 
 /* sections */
@@ -110,13 +117,20 @@ section{padding-block:clamp(72px,9vw,128px)}
 .shot{border-radius:var(--r2);overflow:hidden;border:1px solid var(--line);background:var(--white)}
 .shot img{width:100%;height:auto}
 .caption{font-size:14px;color:var(--muted);margin-top:12px}
-.scroll-shot{height:100vh;min-height:640px;max-height:1040px;border-radius:var(--r2);border:1px solid var(--line);background-color:var(--white);background-image:url(assets/work/island-candy-full.webp);background-size:100% auto;background-repeat:no-repeat;background-position:50% 0;transition:background-position 24s linear}
+.scroll-shot{height:100vh;min-height:640px;max-height:1040px;border-radius:var(--r2);border:1px solid var(--line);background-color:var(--white);background-image:url(assets/work/ironfield-full.webp);background-size:100% auto;background-repeat:no-repeat;background-position:50% 0;transition:background-position 24s linear}
 .scroll-shot:hover{background-position:50% 100%}
 @media (prefers-reduced-motion:reduce){.scroll-shot,.hero-shot{transition:none}.tile-shot,.btn{transition:none}}
 
 .dark{background:var(--ink);color:var(--on-dark)}
 .dark .eyebrow,.dark .muted,.dark .caption{color:var(--on-dark-muted)}
-.dark .shot{border-color:var(--line-dark)}
+.dark .shot,.dark .scroll-shot{border-color:var(--line-dark)}
+.dark .band{border-top-color:var(--line-dark)}
+.yellow{background:var(--yellow);color:var(--ink)}
+.yellow .eyebrow,.yellow .muted,.yellow .caption{color:var(--ink)}
+.yellow .shot{border-color:var(--ink)}
+.soft{background:var(--soft)}
+/* a highlighter stroke behind a word, for headings on a light ground (yellow stays a fill there, never text) */
+.mark{background:linear-gradient(transparent 58%,var(--yellow) 58%,var(--yellow) 92%,transparent 92%);padding-inline:.04em}
 .pb-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,3fr) minmax(0,5fr);gap:clamp(24px,3vw,40px);align-items:center}
 .pb-grid .vera{border-radius:var(--r2);overflow:hidden;aspect-ratio:1}
 .pb-grid .vera img{width:100%;height:100%;object-fit:cover}
@@ -131,7 +145,7 @@ section{padding-block:clamp(72px,9vw,128px)}
 /* process + faq */
 .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,3vw,40px);counter-reset:s}
 .step{border-top:2px solid var(--ink);padding-top:20px}
-.step:before{counter-increment:s;content:"0" counter(s);display:block;font-size:14px;font-weight:700;color:var(--muted);margin-bottom:12px}
+.step:before{counter-increment:s;content:"0" counter(s);display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:var(--pill);background:var(--yellow);font-size:14px;font-weight:800;color:var(--ink);margin-bottom:16px}
 .step p{margin-top:10px;color:var(--muted)}
 .faq{max-width:880px}
 .faq details{border-bottom:1px solid var(--line);padding-block:20px}
@@ -166,12 +180,13 @@ section{padding-block:clamp(72px,9vw,128px)}
 .qf-flag{display:none;font-size:14px;font-weight:700;border-left:3px solid var(--ink);padding-left:10px}
 .qf-flag:target{display:block}
 
-footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
+footer{background:var(--ink);color:var(--on-dark);padding-block:56px 40px;font-size:14px}
+footer .muted{color:var(--on-dark-muted)}
 .foot{display:grid;grid-template-columns:minmax(0,5fr) repeat(2,minmax(0,3fr));gap:40px}
 .foot h4{font-size:14px;margin:0 0 14px}
-.foot nav a{display:block;color:var(--muted);line-height:2}
-.foot nav a:hover{color:var(--ink)}
-.copyright{margin-top:48px;color:var(--muted);font-size:12px}
+.foot nav a{display:block;color:var(--on-dark-muted);line-height:2}
+.foot nav a:hover{color:var(--on-dark)}
+.copyright{margin-top:48px;color:var(--on-dark-muted);font-size:12px}
 
 /* phone: the house mobile shell -- slim header, inset hero card, copy card, dock */
 .dock{display:none}
@@ -200,9 +215,10 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   .col-shot img{object-position:center bottom}
   .col:hover .col-shot{transform:none}
   .wall-dots{order:-1;display:flex;justify-content:flex-end;gap:8px;margin:-19px 16px 0;position:relative}
-  .wall-dots span{width:8px;height:8px;border-radius:var(--r1);border:1.5px solid var(--muted);box-sizing:border-box}
-  .wall-dots span.on{border-color:var(--ink);background:var(--ink)}
-  .hero-top{display:block;background:var(--white);border:1px solid var(--line);border-radius:var(--r2);padding:18px 20px;margin-top:12px}
+  .wall-dots span{width:8px;height:8px;border-radius:var(--r1);border:1.5px solid var(--on-dark-muted);box-sizing:border-box}
+  .wall-dots span.on{border-color:var(--yellow);background:var(--yellow)}
+  .hero-top{display:block;background:var(--ink);border:1px solid var(--line-dark);border-radius:var(--r2);padding:18px 20px;margin-top:12px}
+  .hero .proof{margin-top:24px}
   .hero-top .eyebrow{display:none}
   .hero-top h1{font-size:34px}
   .hero-side .sub{font-size:16px;margin-top:10px;line-height:1.45}
@@ -222,7 +238,7 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   .faq summary{font-size:16px}
   .qf-row{grid-template-columns:1fr}
   .cta-form{padding:20px}
-  .dock{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;height:var(--dock-h);background:var(--paper);border-top:1px solid var(--line);z-index:50;padding-bottom:env(safe-area-inset-bottom)}
+  .dock{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;height:var(--dock-h);background:var(--ink);color:var(--on-dark);border-top:1px solid var(--line-dark);z-index:50;padding-bottom:env(safe-area-inset-bottom)}
   .dock a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:700}
   .dock svg{width:22px;height:22px}
 }
@@ -244,7 +260,7 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   <div class="hero-fold">
   <div class="wrap hero-stack">
     <div class="hero-top">
-      <div class="hero-head"><p class="eyebrow">McAllen, Texas</p><h1>Websites the Valley runs on.</h1></div>
+      <div class="hero-head"><p class="eyebrow">McAllen, Texas</p><h1>Websites the <span class="hl">Valley</span> runs on.</h1></div>
       <div class="hero-side">
         <p class="sub">Websites, local SEO and AI agents for Rio Grande Valley businesses.</p>
         <div class="hero-ctas"><a class="btn primary" href="#contact">Book a strategy call</a><a class="btn" href="#work">See the work</a></div>
@@ -269,7 +285,7 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
 <section id="work">
   <div class="wrap">
     <div class="head">
-      <div><p class="eyebrow">Work</p><h2>Live today, and still ours to run.</h2></div>
+      <div><p class="eyebrow">Work</p><h2><span class="mark">Live today</span>, and still ours to run.</h2></div>
       <p class="muted">Every site in this grid is a real business we built for. Click any of them and you land on the site itself.</p>
     </div>
   </div>
@@ -302,19 +318,19 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   </div>
 </section>
 
-<section id="services" style="padding-top:0">
+<section id="services" class="dark">
   <div class="wrap">
     <div class="head">
-      <div><p class="eyebrow">What we build</p><h2>Four things, done properly.</h2></div>
+      <div><p class="eyebrow">What we build</p><h2>Four things, <span class="hl">done properly.</span></h2></div>
     </div>
 
     <div class="band">
       <div class="band-copy">
         <h3>Websites and landing pages</h3>
-        <p class="muted">Fast, bilingual when it matters, and written so a customer knows what to do next. Hover the frame to scroll the whole Island Candy homepage.</p>
+        <p class="muted">Fast, bilingual when it matters, and written so a customer knows what to do next. Hover the frame to scroll the whole Ironfield Peptides storefront.</p>
         <a class="link" href="websites-landing-pages.html">Websites and landing pages</a>
       </div>
-      <div><div class="scroll-shot" role="img" aria-label="The full Island Candy homepage"></div><p class="caption">island-candy.com</p></div>
+      <div><div class="scroll-shot" role="img" aria-label="The full Ironfield Peptides storefront home page"></div><p class="caption">ironfieldpeptides.space, an online store we built and run</p></div>
     </div>
 
     <div class="band flip">
@@ -337,14 +353,14 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   </div>
 </section>
 
-<section id="petbuddy" class="dark">
+<section id="petbuddy" class="yellow">
   <div class="wrap pb-grid">
     <div>
       <p class="eyebrow">AI agents</p>
       <h2>Pet Buddy talks to your visitors so you don't have to.</h2>
       <p class="muted" style="margin-top:18px">A voice concierge for your website. It answers in English or Spanish, shows people around the page, and hands you the lead.</p>
       <div class="pb-links">
-        <a class="btn primary" href="https://www.petbuddyconcierge.com/" target="_blank" rel="noopener">See Pet Buddy</a>
+        <a class="btn dark" href="https://www.petbuddyconcierge.com/" target="_blank" rel="noopener">See Pet Buddy</a>
         <a class="link" href="ai-webmaster.html">The AI Webmaster, for owners</a>
         <a class="link" href="ai-agents.html">Custom AI agents</a>
       </div>
@@ -354,7 +370,7 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   </div>
 </section>
 
-<section aria-labelledby="all-services">
+<section aria-labelledby="all-services" class="soft">
   <div class="wrap">
     <div class="head"><div><p class="eyebrow">Every service</p><h2 id="all-services">The full list.</h2></div></div>
     <div class="services-list">
@@ -372,9 +388,9 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   </div>
 </section>
 
-<section id="process" style="padding-top:0">
+<section id="process">
   <div class="wrap">
-    <div class="head"><div><p class="eyebrow">Process</p><h2>How a project runs.</h2></div></div>
+    <div class="head"><div><p class="eyebrow">Process</p><h2>How a project <span class="mark">runs.</span></h2></div></div>
     <div class="steps">
       <div class="step"><h3>Talk</h3><p>A short call about what you sell, who buys it and what is not working.</p></div>
       <div class="step"><h3>Build</h3><p>We design and build it, and show you the real thing early.</p></div>
@@ -388,6 +404,7 @@ footer{border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px}
   <div class="wrap faq">
     <div class="head"><div><p class="eyebrow">FAQ</p><h2>Quick answers.</h2></div></div>
     <details><summary>Where are you based?</summary><p>McAllen, Texas. We work with businesses across the Rio Grande Valley, from Mission to Brownsville, and meet in person when that helps.</p></details>
+    <details><summary>Do you work with businesses outside McAllen?</summary><p>Yes. We build for businesses in Edinburg, Mission, Pharr, Weslaco, Harlingen and Brownsville as well as McAllen. Most of the work runs by phone and screen share, so distance across the Valley is never the problem.</p></details>
     <details><summary>Can I see work you have actually built?</summary><p>Yes. Every site in the Work section is live, and each tile opens the real site.</p></details>
     <details><summary>Do you handle Google Business Profile and Search Console?</summary><p>Yes. We set both up, keep them current and check how you show up in local search.</p></details>
     <details><summary>Can you build software, not just websites?</summary><p>Yes. We build web apps, point-of-sale and inventory tools, automations and AI agents.</p></details>
